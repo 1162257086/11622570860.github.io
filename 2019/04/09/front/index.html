@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Event Loop,">
 
 
 
@@ -80,13 +80,14 @@
 
 
 <meta name="description" content="这一次，彻底弄懂 JavaScript 执行机制   本文的目的就是要保证你彻底弄懂javascript的执行机制，如果读完本文还不懂，可以揍我。不论你是javascript新手还是老鸟，不论是面试求职，还是日常开发工作，我们经常会遇到这样的情况：给定的几行代码，我们需要知道其输出内容和顺序。因为javascript是一门单线程语言，所以我们可以得出结论： * javascript是按照语句出现的">
-<meta property="og:type" content="website">
+<meta name="keywords" content="Event Loop">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Event Loop JavaScript 执行机制">
-<meta property="og:url" content="http://yoursite.com/categories/index/front.html">
+<meta property="og:url" content="http://yoursite.com/2019/04/09/front/index.html">
 <meta property="og:site_name" content="Jerry">
 <meta property="og:description" content="这一次，彻底弄懂 JavaScript 执行机制   本文的目的就是要保证你彻底弄懂javascript的执行机制，如果读完本文还不懂，可以揍我。不论你是javascript新手还是老鸟，不论是面试求职，还是日常开发工作，我们经常会遇到这样的情况：给定的几行代码，我们需要知道其输出内容和顺序。因为javascript是一门单线程语言，所以我们可以得出结论： * javascript是按照语句出现的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-09T15:24:21.895Z">
+<meta property="og:updated_time" content="2019-04-09T15:37:59.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Event Loop JavaScript 执行机制">
 <meta name="twitter:description" content="这一次，彻底弄懂 JavaScript 执行机制   本文的目的就是要保证你彻底弄懂javascript的执行机制，如果读完本文还不懂，可以揍我。不论你是javascript新手还是老鸟，不论是面试求职，还是日常开发工作，我们经常会遇到这样的情况：给定的几行代码，我们需要知道其输出内容和顺序。因为javascript是一门单线程语言，所以我们可以得出结论： * javascript是按照语句出现的">
@@ -119,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/index/front.html">
+  <link rel="canonical" href="http://yoursite.com/2019/04/09/front/">
 
 
 
@@ -250,24 +251,108 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/front/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jerry">
+    </span>
+
     
-    
-    <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">Event Loop JavaScript 执行机制</h1>
-
-
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
         
         
-          <p>这一次，彻底弄懂 JavaScript 执行机制  </p>
+          <h1 class="post-title" itemprop="name headline">Event Loop JavaScript 执行机制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-04-09T22:05:07+08:00">
+                2019-04-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/source/categories/JS底层/" itemprop="url" rel="index">
+                    <span itemprop="name">JS底层</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这一次，彻底弄懂 JavaScript 执行机制  </p>
 <p>本文的目的就是要保证你彻底弄懂javascript的执行机制，如果读完本文还不懂，可以揍我。<br>不论你是javascript新手还是老鸟，不论是面试求职，还是日常开发工作，我们经常会遇到这样的情况：给定的几行代码，我们需要知道其输出内容和顺序。因为javascript是一门单线程语言，所以我们可以得出结论：</p>
 <pre><code>* javascript是按照语句出现的顺序执行的
 </code></pre><p>看到这里读者要打人了：我难道不知道js是一行一行执行的？还用你说？稍安勿躁，正因为js是一行一行执行的，所以我们以为js都是这样的：</p>
@@ -357,15 +442,63 @@ for(var i = 0; i &lt; 10000; i++){
 <pre><code>* javascript是一门单线程语言
 * Event Loop是javascript的执行机制
 </code></pre>
-        
-      </div>
-      
-      
       
     </div>
     
     
     
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/source/tags/Event-Loop/" rel="tag"># Event Loop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/09/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -414,14 +547,32 @@ for(var i = 0; i &lt; 10000; i++){
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
             
 
             
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
             
 
           </nav>
